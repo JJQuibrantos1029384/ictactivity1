@@ -1,0 +1,263 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family:Verdana, Geneva, Tahoma;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .answer {
+      display: inline-block;
+      width: 48%;
+      margin: 0 1%;
+      padding: 10px;
+      background-color: #eee;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    .answer:hover {
+      background-color: #ddd;
+    }
+
+    .selected {
+      background-color: #c0c0c0;
+    }
+
+    .correct {
+      background-color: #a0d468;
+    }
+
+    .wrong {
+      background-color: #ed5565;
+    }
+
+    .result {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    #submit {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        padding: 10px;
+        background-color:#eee;
+        border: 1px solid #ddd;
+        cursor: pointer;
+    }
+    #submit:hover{
+        background-color: #ddd;
+    }
+    #submit:active{
+        background-color: #c0c0c0;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>(ICT Activity 1) Group 6 </h1>
+    <h2 align="center">Interactive Quiz</h2>
+    <h3>Created by: JJ Quibrantos, John Seong teh Antopina, Milvincent Amugauan</h3>
+    <br>
+    <br>
+
+    <div class="question">
+      
+      1. The assasination of who started World War 1 and indirectly started World War 2?
+
+    </div>
+    <div class="answer" data-correct="false">John F. Kennedy</div>
+    <div class="answer" data-correct="false">Otto Von Birsmarck</div>
+    <div class="answer" data-correct="true">Archduke Franz Ferdinand</div>
+    <div class="answer" data-correct="false">George Washington</div>
+    <div class="question">
+      
+     2. Who assasinated the 35th President of The United States of America?
+    </div>
+    <div class="answer" data-correct="false">Osama Bin Laden</div>
+    <div class="answer" data-correct="false">John Paul Jones</div>
+    <div class="answer" data-correct="true">Lee Harvey Oswald</div>
+    <div class="answer" data-correct="false">Edgar Allan Poe</div>
+    <div class="question">
+      
+      3. Who was the very first Pope in Christianity?
+    </div>
+    <div class="answer" data-correct="false">St. John</div>
+    <div class="answer" data-correct="true">St. Peter</div>
+    <div class="answer" data-correct="false">St. Andrew</div>
+    <div class="answer" data-correct="false">St. Matthew </div>
+    <div class="question">
+      
+     4.  What happened in May 2, 2011 that sparked a significant change is the US History
+    </div>
+    <div class="answer" data-correct="false">The integration of Antitrust Laws</div>
+    <div class="answer" data-correct="false"> The celebration of Independence Day</div>
+    <div class="answer" data-correct="false">George W. Bush was elected</div>
+    <div class="answer" data-correct="true">The certified death of Osama Bin Laden</div>
+    <div class="question">
+      
+      5. The battle of _________ was considered by historians as the worst naval defeat in US history
+    </div>
+    <div class="answer" data-correct="false">Battle of Guadalcanal</div>
+    <div class="answer" data-correct="false">Battle of Pearl Harbor</div>
+    <div class="answer" data-correct="false">Battle of Tassafaronga</div>
+    <div class="answer" data-correct="true">Battle of Savo island</div>
+    <div class="result"></div>
+    <div class="timer">60</div>
+    <button id="submit">Submit</button>
+    <div class="result"></div>
+  </div>
+  <script>
+    var answers = document.querySelectorAll(".answer");
+var result = document.querySelector(".result");
+var timer = document.querySelector(".timer");
+
+var submit = document.getElementById("submit");
+
+var score = 0;
+var time = 60;
+var interval;
+var attempted = [];
+
+for (var i = 0; i < answers.length; i++) {
+  answers[i].addEventListener("click", function() {
+    
+    if (this.dataset.correct === "true") {
+    
+      score++;
+       
+      this.classList.add("correct");
+    } else {
+       
+      this.classList.add("wrong");
+    }
+    
+    var siblings = this.parentNode.children;
+    for (var j = 0; j < siblings.length; j++) {
+      if (siblings[j] !== this) {
+        siblings[j].classList.add("selected");
+        siblings[j].removeEventListener("click", arguments.callee);
+      }
+    }
+     
+    attempted.push(questionsIndex);
+     
+    if (score === 5) {
+       
+      clearInterval(interval);
+      
+      result.innerHTML = "You got " + score + " out of 5 correct!";
+      result.style.display = "block";
+    
+      alert("Congratulations! You completed the quiz in " + (60 - time) + " seconds!");
+    }
+  });
+}
+
+submit.addEventListener("click", function() {
+  
+  if (score < 5) {
+    
+    alert("Please answer all the questions before submitting!");
+  } else {
+    
+    this.style.display = "none";
+    
+    result.innerHTML = "You got " + score + " out of 5 correct!";
+    result.style.display = "block";
+    
+    clearInterval(interval);
+    
+    alert("Congratulations! You completed the quiz in " + (60 - time) + " seconds!");
+  }
+});
+
+interval = setInterval(function() {
+  
+  time--;
+ 
+  timer.innerHTML = time;
+  
+  if (time === 0) {
+    
+    clearInterval(interval);
+    
+    submit.style.display = "none";
+    
+    result.innerHTML = "You got " + score + " out of 5 correct!";
+    result.style.display = "block";
+    
+    alert("Time's up! You completed the quiz in 60 seconds!");
+  }
+}, 1000);
+
+ 
+function getNewQuestion() {
+   
+  if (availableQuestions.length === 0 || questionCounter > MAX_QUESTIONS) {
+     
+    localStorage.setItem("mostRecentScore", score);
+     
+    return window.location.assign("end.html");
+  }
+
+   
+  questionCounter++;
+   
+  var questionsIndex = Math.floor(Math.random() * availableQuestions.length);
+   
+  currentQuestion = availableQuestions[questionsIndex];
+   
+  if (attempted.includes(questionsIndex)) {
+      
+    getNewQuestion();
+  } else {
+     
+    question.innerText = currentQuestion.question;
+     
+    choices.forEach(choice => {
+      var number = choice.dataset["number"];
+      choice.innerText = currentQuestion["choice" + number];
+    });
+     
+    availableQuestions.splice(questionsIndex, 1);
+     
+    acceptingAnswers = true;
+  }
+}
+  </script>
+</body>
+</html>
